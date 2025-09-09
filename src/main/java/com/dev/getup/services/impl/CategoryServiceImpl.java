@@ -3,6 +3,7 @@ package com.dev.getup.services.impl;
 import com.dev.getup.domain.entities.Category;
 import com.dev.getup.repositories.CategoryRepo;
 import com.dev.getup.services.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryRepo.deleteById(id);
 
+    }
+
+    @Override
+    public Category getCategoryById(UUID id) {
+        return categoryRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category with id " + id + " does not exist"));
     }
 }
